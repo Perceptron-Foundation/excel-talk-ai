@@ -50,6 +50,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+async def root():
+    return {"message": "Excel Chat AI Backend is running"}
+    
 @app.post("/upload_file/")
 async def upload_file(file: UploadFile = File(...)):
     temp_file_path = None
