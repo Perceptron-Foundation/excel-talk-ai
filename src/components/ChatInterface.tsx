@@ -18,7 +18,7 @@ const ChatInterface = ({ fileName }: ChatInterfaceProps) => {
     {
       id: "welcome",
       role: "assistant",
-      content: `Great! I've analyzed your file "${fileName}". Ask me anything about your uploaded Excel data. For example: "Which supplier had the highest spend in 2024?" or "Show me a summary of commodity prices."`,
+      content: `Ask me anything about your uploaded Excel data. Example: 'Which supplier had the highest spend?' or 'List purchases by commodity.'`,
     },
   ]);
   const [input, setInput] = useState("");
@@ -66,19 +66,19 @@ const ChatInterface = ({ fileName }: ChatInterfaceProps) => {
   };
 
   return (
-    <section className="py-16">
+    <section className="py-16 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-        <div className="bg-card rounded-2xl shadow-[0_4px_20px_-2px_hsl(210_30%_10%/0.1)] overflow-hidden">
-          <div className="bg-primary/10 border-b border-border px-6 py-4">
-            <h3 className="text-xl font-semibold text-card-foreground">
+        <div className="bg-card rounded-2xl shadow-[0_8px_32px_-8px_hsl(0_0%_0%/0.15)] overflow-hidden border border-primary/10">
+          <div className="bg-primary text-primary-foreground px-6 py-4 border-b border-primary/20">
+            <h3 className="text-xl font-semibold">
               Chat with Your Data
             </h3>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-primary-foreground/80 mt-1">
               File: {fileName}
             </p>
           </div>
 
-          <div className="h-[500px] overflow-y-auto p-6 space-y-4">
+          <div className="h-[500px] overflow-y-auto p-6 space-y-4 bg-background/50">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -87,7 +87,7 @@ const ChatInterface = ({ fileName }: ChatInterfaceProps) => {
                 }`}
               >
                 {message.role === "assistant" && (
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
                     <Bot className="h-5 w-5 text-primary" />
                   </div>
                 )}
@@ -95,16 +95,16 @@ const ChatInterface = ({ fileName }: ChatInterfaceProps) => {
                 <div
                   className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                     message.role === "user"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-success/10 text-card-foreground border border-success/20"
+                      ? "bg-accent text-accent-foreground font-medium"
+                      : "bg-primary text-primary-foreground"
                   }`}
                 >
                   <p className="text-sm leading-relaxed">{message.content}</p>
                 </div>
 
                 {message.role === "user" && (
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                    <User className="h-5 w-5 text-primary-foreground" />
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/30 flex items-center justify-center">
+                    <User className="h-5 w-5 text-gold" />
                   </div>
                 )}
               </div>
@@ -112,14 +112,14 @@ const ChatInterface = ({ fileName }: ChatInterfaceProps) => {
             
             {isLoading && (
               <div className="flex gap-3 justify-start">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
                   <Bot className="h-5 w-5 text-primary" />
                 </div>
-                <div className="bg-success/10 text-card-foreground border border-success/20 rounded-2xl px-4 py-3">
+                <div className="bg-primary text-primary-foreground rounded-2xl px-4 py-3">
                   <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-success rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <div className="w-2 h-2 bg-success rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <div className="w-2 h-2 bg-success rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                    <div className="w-2 h-2 bg-gold rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <div className="w-2 h-2 bg-gold rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <div className="w-2 h-2 bg-gold rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                   </div>
                 </div>
               </div>
@@ -128,21 +128,21 @@ const ChatInterface = ({ fileName }: ChatInterfaceProps) => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="border-t border-border p-4 bg-secondary/30">
+          <div className="border-t border-border p-4 bg-card">
             <div className="flex gap-2">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask a question about your data..."
-                className="flex-1 bg-card"
+                className="flex-1"
                 disabled={isLoading}
               />
               <Button
                 onClick={handleSend}
                 disabled={!input.trim() || isLoading}
                 size="icon"
-                className="flex-shrink-0"
+                className="flex-shrink-0 bg-accent text-accent-foreground hover:bg-accent/90"
               >
                 <Send className="h-4 w-4" />
               </Button>

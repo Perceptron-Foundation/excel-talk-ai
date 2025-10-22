@@ -65,94 +65,82 @@ const FileUpload = ({ onFileUploaded }: FileUploadProps) => {
   };
 
   return (
-    <section id="upload" className="py-16 scroll-mt-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-        <div className="bg-card rounded-2xl p-8 sm:p-12 shadow-[0_4px_20px_-2px_hsl(210_30%_10%/0.1)]">
-          <div className="text-center mb-8">
-            <h3 className="text-3xl font-bold text-card-foreground mb-3">
-              Upload Your Excel File
-            </h3>
-            <p className="text-muted-foreground">
-              Drag and drop your .xlsx file or click to browse
-            </p>
-          </div>
+    <div className="max-w-2xl mx-auto">
+      <div className="bg-card rounded-2xl p-8 shadow-[0_8px_32px_-8px_hsl(0_0%_0%/0.2)] border border-gold/20">
+        <div
+          onDrop={handleDrop}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setIsDragging(true);
+          }}
+          onDragLeave={() => setIsDragging(false)}
+          className={`border-2 border-dashed rounded-xl p-12 transition-all ${
+            isDragging
+              ? "border-gold bg-gold/10 scale-[1.02]"
+              : "border-gold/40 hover:border-gold"
+          }`}
+        >
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".xlsx,.xls"
+            onChange={handleFileSelect}
+            className="hidden"
+            id="file-upload"
+          />
 
-          <div
-            onDrop={handleDrop}
-            onDragOver={(e) => {
-              e.preventDefault();
-              setIsDragging(true);
-            }}
-            onDragLeave={() => setIsDragging(false)}
-            className={`border-2 border-dashed rounded-xl p-12 transition-all ${
-              isDragging
-                ? "border-primary bg-primary/5 scale-[1.02]"
-                : "border-border hover:border-primary/50"
-            }`}
-          >
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".xlsx,.xls"
-              onChange={handleFileSelect}
-              className="hidden"
-              id="file-upload"
-            />
-
-            {selectedFile ? (
-              <div className="flex items-center justify-between bg-secondary rounded-lg p-4">
-                <div className="flex items-center gap-3">
-                  <FileSpreadsheet className="h-8 w-8 text-success" />
-                  <div>
-                    <p className="font-medium text-secondary-foreground">
-                      {selectedFile.name}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {(selectedFile.size / 1024).toFixed(2)} KB
-                    </p>
-                  </div>
+          {selectedFile ? (
+            <div className="flex items-center justify-between bg-secondary rounded-lg p-4">
+              <div className="flex items-center gap-3">
+                <FileSpreadsheet className="h-8 w-8 text-gold" />
+                <div>
+                  <p className="font-medium text-foreground">
+                    {selectedFile.name}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {(selectedFile.size / 1024).toFixed(2)} KB
+                  </p>
                 </div>
-                <button
-                  onClick={clearFile}
-                  className="p-2 hover:bg-destructive/10 rounded-lg transition-colors"
-                >
-                  <X className="h-5 w-5 text-destructive" />
-                </button>
               </div>
-            ) : (
-              <label
-                htmlFor="file-upload"
-                className="flex flex-col items-center cursor-pointer"
+              <button
+                onClick={clearFile}
+                className="p-2 hover:bg-destructive/10 rounded-lg transition-colors"
               >
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                  <Upload className="h-8 w-8 text-primary" />
-                </div>
-                <p className="text-lg font-medium text-card-foreground mb-1">
-                  Click to upload or drag and drop
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Excel files only (.xlsx, .xls) • Max 10MB
-                </p>
-              </label>
-            )}
-          </div>
-
-          {selectedFile && (
-            <div className="mt-6">
-              <Button
-                onClick={handleUpload}
-                variant="hero"
-                size="lg"
-                className="w-full"
-              >
-                Upload & Start Chatting
-                <FileSpreadsheet className="h-5 w-5" />
-              </Button>
+                <X className="h-5 w-5 text-destructive" />
+              </button>
             </div>
+          ) : (
+            <label
+              htmlFor="file-upload"
+              className="flex flex-col items-center cursor-pointer"
+            >
+              <div className="w-16 h-16 bg-gold/20 rounded-full flex items-center justify-center mb-4">
+                <Upload className="h-8 w-8 text-gold" />
+              </div>
+              <p className="text-lg font-medium text-foreground mb-1">
+                Click to upload or drag and drop
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Excel files only (.xlsx, .xls) • Max 10MB
+              </p>
+            </label>
           )}
         </div>
+
+        {selectedFile && (
+          <div className="mt-6">
+            <Button
+              onClick={handleUpload}
+              className="w-full bg-accent text-accent-foreground hover:bg-accent/90 shadow-[0_8px_24px_-8px_hsl(var(--accent)/0.6)] hover:shadow-[0_12px_32px_-8px_hsl(var(--accent)/0.7)] transition-all font-bold h-12 text-base"
+              size="lg"
+            >
+              Upload & Start Chatting
+              <FileSpreadsheet className="h-5 w-5" />
+            </Button>
+          </div>
+        )}
       </div>
-    </section>
+    </div>
   );
 };
 
