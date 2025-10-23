@@ -54,7 +54,7 @@ app.add_middleware(
 async def root():
     return {"message": "Excel Chat AI Backend is running"}
     
-@app.post("/upload_file/")
+@app.post("/upload_file")
 async def upload_file(file: UploadFile = File(...)):
     temp_file_path = None
     try:
@@ -110,7 +110,7 @@ class QueryInput(BaseModel):
     room_id: str
     query: str
 
-@app.post("/query/")
+@app.post("/query")
 async def query_excel(query_input: QueryInput):
     room_id = query_input.room_id
     query = query_input.query
