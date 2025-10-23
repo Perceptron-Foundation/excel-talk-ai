@@ -29,7 +29,7 @@ embeddings = GoogleGenerativeAIEmbeddings(
 )
 
 llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
+    model="gemini-2.5-pro",
     safety_settings={
         HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
     },
@@ -68,7 +68,6 @@ async def upload_file(file: UploadFile = File(...)):
                 status_code=400
             )
         
-        # Read and validate file size (10MB limit)
         contents = await file.read()
         if len(contents) > 10 * 1024 * 1024:
             return JSONResponse(
@@ -76,8 +75,6 @@ async def upload_file(file: UploadFile = File(...)):
                 status_code=413
             )
         
-        
-        # Create temporary file with appropriate suffix
         with tempfile.NamedTemporaryFile(delete=False, suffix=file_extension) as temp_file:
             temp_file.write(contents)
             temp_file_path = temp_file.name
@@ -122,17 +119,29 @@ async def query_excel(query_input: QueryInput):
     retriever = chroma_db.as_retriever()
 
     prompt = ChatPromptTemplate.from_template("""
-    You are an expert data assistant. Your task is to answer the user's question using only the provided Excel data context below.
-    - The context contains structured information about commodities, suppliers, quantities, and spend, extracted from an Excel spreadsheet.
-    - If calculations, comparisons, or summaries are necessary, clearly show the result and briefly explain the reasoning.
-    - Provide clear, concise, and relevant answers. Use bullet points or tables for lists or summaries if possible.
-    - If the user's question cannot be answered from the context, politely respond: "The requested information is not available in the provided data."
+    You are an expert data assistant. Your task is to answer the user's question using ONLY the context data from the provided spreadsheet below – do NOT make assumptions or invent data.
+
+    Context Description:
+    - The context contains information about commodities, suppliers, quantities, and spend, extracted from a spreadsheet.
+
+    Instructions:
+    - Always present your responses in a structured, easy-to-read format suitable for a chat app, such as:
+    - Markdown bullet points for lists
+    - Tables for comparisons or grouped summaries
+    - Proper headings for different sections if multiple topics are requested
+    - Clearly show all calculations, comparisons, or summaries (if needed). Briefly explain the reasoning.
+    - If the response is numeric or tabular, include a short summary/interpretation at the top.
+    - If the user's question cannot be answered from the context, reply: **"The requested information is not available in the provided data."**
+    - Never include data outside the spreadsheet context.
+
     <context>
     {context}
     </context>
+
     Question:
     {input}
     """)
+
     
     doc_chain = create_stuff_documents_chain(llm, prompt)
     retrieval_chain = create_retrieval_chain(retriever, doc_chain)

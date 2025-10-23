@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import ReactMarkdown from 'react-markdown';
 import { Send, Bot, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -75,11 +76,11 @@ const ChatInterface = ({ fileName, roomid }: ChatInterfaceProps) => {
       const data = await response.json();
       console.log("AI response data:", data);
 
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: "assistant",
-        content: data.answer || "No response received.",
-      };
+        const aiMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: "assistant",
+          content: data.answer || "No response received.",
+        };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       setMessages((prev) => [
@@ -112,9 +113,6 @@ const ChatInterface = ({ fileName, roomid }: ChatInterfaceProps) => {
             <p className="text-sm text-primary-foreground/80 mt-1">
               File: {fileName}
             </p>
-            <p className="text-xs text-primary-foreground/50">
-              Session: {roomid}
-            </p>
           </div>
 
           <div className="h-[500px] overflow-y-auto p-6 space-y-4 bg-background/50">
@@ -138,7 +136,16 @@ const ChatInterface = ({ fileName, roomid }: ChatInterfaceProps) => {
                       : "bg-primary text-primary-foreground"
                   }`}
                 >
-                  <p className="text-sm leading-relaxed">{message.content}</p>
+                 {message.role === "assistant" ? (
+                    <div className="text-sm leading-relaxed">
+                      <ReactMarkdown>
+                        {message.content}
+                      </ReactMarkdown>
+                    </div>
+                  ) : (
+                    <p className="text-sm leading-relaxed">{message.content}</p>
+                  )}
+
                 </div>
 
                 {message.role === "user" && (
