@@ -1,73 +1,74 @@
-# Welcome to your Lovable project
+# Data Insight Pro
 
-## Project info
+## About
 
-**URL**: https://lovable.dev/projects/184729c9-7570-4554-b616-2ab76f0a8886
+Data Insight Pro is an interactive platform that lets users upload their CSV data and instantly query, analyze, or summarize it through an intuitive chat interface. Powered by state-of-the-art Large Language Models (LLMs), Data Insight Pro helps you turn spreadsheets into actionable insights, conversationally.
+- AI-powered natural language chat based on uploaded tabular data
+- Minimal UI for file upload, chat, and session management
+- Fast, lightweight, and supports .xlsx, .xls, .csv
+- **Project GitHub**: [GitHub](https://github.com/therishabhmittal-05/excel-talk-ai)
 
-## How can I edit this code?
+***
 
-There are several ways of editing your application.
+## Architecture
 
-**Use Lovable**
+**Frontend**  
+- Vite + React + TypeScript  
+- UI: shadcn-ui, Tailwind CSS  
+- Renders LLM answers as Markdown in a chat interface
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/184729c9-7570-4554-b616-2ab76f0a8886) and start prompting.
+**Backend**  
+- FastAPI (Python)
+- REST endpoints (`/upload_file`, `/query`)
+- Handles file uploads, context extraction, and chat request routing
+- Integrates with LLMs for spreadsheet-aware responses
 
-Changes made via Lovable will be committed automatically to this repo.
+**How it works:**  
+1. User uploads a CSV file.
+2. Backend parses, stores, and generates context.
+3. LLM receives prompt and context, answers chat queries.
+4. Response is sent to the frontend and shown as a Markdown chat reply.
 
-**Use your preferred IDE**
+***
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Screenshots
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Hero Section
+![Hero Section](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219072/Screenshot_2025-10-23_165844_lpsaww.png Interface
+![Upload Interface](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219135/Screenshot_2025-10-23_170204_fnvy8y.png Interface
+![Chat Interface](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219253/Screenshot_2025-10-23_170405_afrhqi.png & Local Run
 
-Follow these steps:
+### 1. Clone the Repository
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone https://github.com/therishabhmittal-05/excel-talk-ai.git
+cd excel-talk-ai
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 2. Frontend Setup
 
-# Step 3: Install the necessary dependencies.
+```sh
 npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### 3. Backend Setup
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```sh
+cd backend_ai_feature
+python -m venv venv
+source venv/bin/activate 
+pip install -r requirements.txt
+uvicorn app:app --reload --host 0.0.0.0 --port 8000
+```
 
-**Use GitHub Codespaces**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+***
 
-## What technologies are used for this project?
+## About & GitHub
 
-This project is built with:
+Built and maintained by Rishabh Mittal  
+- GitHub: [GitHub](https://github.com/therishabhmittal-05/excel-talk-ai/)  
+- Project Demo: [Excel Talk AI](https://excel-talk-ai.vercel.app)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/184729c9-7570-4554-b616-2ab76f0a8886) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
