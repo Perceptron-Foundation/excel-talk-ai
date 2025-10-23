@@ -14,8 +14,7 @@ Data Insight Pro is an interactive platform that lets users upload their CSV dat
 
 **Frontend**  
 - Vite + React + TypeScript  
-- UI: shadcn-ui, Tailwind CSS  
-- Renders LLM answers as Markdown in a chat interface
+- UI: shadcn-ui, Tailwind CSS 
 
 **Backend**  
 - FastAPI (Python)
@@ -25,8 +24,8 @@ Data Insight Pro is an interactive platform that lets users upload their CSV dat
 
 **How it works:**  
 1. User uploads a CSV file.
-2. Backend parses, stores, and generates context.
-3. LLM receives prompt and context, answers chat queries.
+2. Backend parses, generate embeddings using gemini-embedding model and stores in chroma DB. 
+3. LLM receives prompt and context (room_id for chroma DB session- storing embeddings for the current file), answers chat queries.
 4. Response is sent to the frontend and shown as a Markdown chat reply.
 
 ***
@@ -34,9 +33,9 @@ Data Insight Pro is an interactive platform that lets users upload their CSV dat
 ## Screenshots
 
 ### Hero Section
-![Hero Section](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219072/Screenshot_2025-10-23_165844_lpsaww.png Interface
-![Upload Interface](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219135/Screenshot_2025-10-23_170204_fnvy8y.png Interface
-![Chat Interface](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219253/Screenshot_2025-10-23_170405_afrhqi.png & Local Run
+![Hero Section](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219072/Screenshot_2025-10-23_165844_lpsaww.png)
+![Upload Interface](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219135/Screenshot_2025-10-23_170204_fnvy8y.png)
+![Chat Interface](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219253/Screenshot_2025-10-23_170405_afrhqi.png)
 
 ### 1. Clone the Repository
 
