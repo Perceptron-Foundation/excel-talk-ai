@@ -3,26 +3,20 @@ fastapi==0.115.0
 uvicorn[standard]==0.31.0
 python-multipart==0.0.12
 
-# Environment Variables
 python-dotenv==1.0.1
 
-# LangChain - Keep compatible versions
 langchain==0.3.7
 langchain-core==0.3.15
 langchain-community==0.3.5
 
-# Vector Database - OLD versions with posthog workaround
 langchain-chroma==0.1.4
 chromadb==0.5.18
 posthog>=2.4.0,<6.0.0
 
-# Google Gemini Integration
 langchain-google-genai==2.0.4
 
-# Document Loaders & Processing
-unstructured==0.16.1
-openpyxl==3.1.5
-xlrd==2.0.1
+unstructured
+openpyxl
+xlrd
 
-# Additional Dependencies
 pydantic==2.9.2

@@ -15,7 +15,7 @@ const Navigation = () => {
           
           <div className="flex items-center gap-6">
             <a
-              href=" https://drive.google.com/file/d/1zFHVtn-ehcBMoPJm1F9T1G-YZ2ahwpR_/view?usp=sharing"
+              href=" https://drive.google.com/file/d/1zFHVtn-ehcBMoPJm1F9T1G-YZ2ahwpR_/view"
               className="text-sm font-medium text-foreground/70 hover:text-gold transition-colors"
             >
               About
