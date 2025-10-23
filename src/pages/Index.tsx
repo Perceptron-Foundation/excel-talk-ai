@@ -7,10 +7,15 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [roomId, setRoomId] = useState<string>("");
   const uploadSectionRef = useRef<HTMLDivElement>(null);
 
-  const handleFileUploaded = (file: File) => {
+  const handleFileUploaded = (file: File, newRoomId: string) => { 
+    console.log("handleFileUploaded called!");
+    console.log("File:", file.name);
+    console.log("Room ID:", newRoomId); 
     setUploadedFile(file);
+    setRoomId(newRoomId);
   };
 
   const scrollToUpload = () => {
@@ -21,7 +26,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Navigation />
       
-      <main className="flex-1">
+      <main className="flex-1">   
         <Hero>
           {!uploadedFile ? (
             <FileUpload onFileUploaded={handleFileUploaded} />
@@ -29,8 +34,11 @@ const Index = () => {
         </Hero>
         
         <div ref={uploadSectionRef}>
-          {uploadedFile && (
-            <ChatInterface fileName={uploadedFile.name} />
+          {uploadedFile && roomId && (
+            <ChatInterface 
+              fileName={uploadedFile.name} 
+              roomid={roomId} 
+            />
           )}
         </div>
       </main>

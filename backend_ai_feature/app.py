@@ -19,7 +19,7 @@ import uuid
 load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY")
 
-
+os.environ["ANONYMIZED_TELEMETRY"] = "False"
 os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
 

@@ -4,31 +4,35 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 interface FileUploadProps {
-  onFileUploaded: (file: File) => void;
+  onFileUploaded: (file: File, roomid: string) => void;
 }
 
 const FileUpload = ({ onFileUploaded }: FileUploadProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false); // Optional: loading state
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Add ".csv" types to validTypes
+  const validTypes = [
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+    "application/vnd.ms-excel",                                          // .xls
+    "text/csv",                                                          // .csv
+    "application/csv",                                               
+  ];
+
   const validateFile = (file: File): boolean => {
-    const validTypes = [
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      "application/vnd.ms-excel",
-    ];
-    
     if (!validTypes.includes(file.type)) {
-      toast.error("Invalid file type. Please upload an Excel file (.xlsx or .xls)");
+      toast.error("Invalid file type. Please upload a valid file (.xlsx, .xls, .csv)");
       return false;
     }
-    
-    const maxSize = 10 * 1024 * 1024; // 10MB
+
+    const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
       toast.error("File too large. Maximum size is 10MB");
       return false;
     }
-    
+    console.log("File validated:", file.name);
     return true;
   };
 
@@ -42,7 +46,6 @@ const FileUpload = ({ onFileUploaded }: FileUploadProps) => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    
     const file = e.dataTransfer.files[0];
     if (file) handleFile(file);
   };
@@ -52,10 +55,33 @@ const FileUpload = ({ onFileUploaded }: FileUploadProps) => {
     if (file) handleFile(file);
   };
 
-  const handleUpload = () => {
+  // Main upload logic here
+  const handleUpload = async () => {
     if (selectedFile) {
-      onFileUploaded(selectedFile);
-      toast.success("Starting chat with your data...");
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      setIsLoading(true);
+      try {
+        const response = await fetch("https://excel-talk-ai.onrender.com/upload_file", {
+          method: "POST",
+          body: formData,
+        });
+        setIsLoading(false);
+        if (!response.ok) {
+          throw new Error("File upload failed");
+        }
+        const data = await response.json();
+
+        console.log("Upload response", data.room_id);
+
+
+        // Pass file and roomid to parent
+        onFileUploaded(selectedFile, data.room_id);
+        toast.success("Starting chat with your data...");
+      } catch (error) {
+        setIsLoading(false);
+        toast.error("Upload failed: " + (error?.message || "Unknown error"));
+      }
     }
   };
 
@@ -83,7 +109,8 @@ const FileUpload = ({ onFileUploaded }: FileUploadProps) => {
           <input
             ref={fileInputRef}
             type="file"
-            accept=".xlsx,.xls"
+            // Add .csv to accepted types
+            accept=".xlsx,.xls,.csv"
             onChange={handleFileSelect}
             className="hidden"
             id="file-upload"
@@ -121,7 +148,7 @@ const FileUpload = ({ onFileUploaded }: FileUploadProps) => {
                 Click to upload or drag and drop
               </p>
               <p className="text-sm text-muted-foreground">
-                Excel files only (.xlsx, .xls) • Max 10MB
+                Excel files only (.xlsx, .xls, .csv) • Max 10MB
               </p>
             </label>
           )}
@@ -133,9 +160,10 @@ const FileUpload = ({ onFileUploaded }: FileUploadProps) => {
               onClick={handleUpload}
               className="w-full bg-accent text-accent-foreground hover:bg-accent/90 shadow-[0_8px_24px_-8px_hsl(var(--accent)/0.6)] hover:shadow-[0_12px_32px_-8px_hsl(var(--accent)/0.7)] transition-all font-bold h-12 text-base"
               size="lg"
+              disabled={isLoading}
             >
-              Upload & Start Chatting
-              <FileSpreadsheet className="h-5 w-5" />
+              {isLoading ? "Uploading..." : "Upload & Start Chatting"}
+              {!isLoading && <FileSpreadsheet className="h-5 w-5" />}
             </Button>
           </div>
         )}

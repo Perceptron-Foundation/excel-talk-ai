@@ -9,9 +9,6 @@ const Footer = () => {
             Made with <Heart className="h-4 w-4 text-gold fill-gold" /> by{" "}
             <span className="font-semibold text-gold">Rishabh Mittal</span>
           </p>
-          <p className="text-xs text-primary/80">
-            Powered by Python, LangChain & React
-          </p>
         </div>
       </div>
     </footer>

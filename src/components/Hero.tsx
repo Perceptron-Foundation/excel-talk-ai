@@ -26,11 +26,12 @@ const Hero = ({ children }: HeroProps) => {
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <div className="space-y-4">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight text-primary-foreground">
-              Transform Excel Sheets into{" "}
+              Transform Data into<br />
               <span className="text-gold">AI-Powered Conversations</span>
             </h1>
+
             <p className="text-lg sm:text-xl text-primary-foreground/90 max-w-2xl mx-auto">
-              Upload your commodity Excel file and chat with your business data instantly. AI-driven answers. No more manual searches.
+              Upload your commodity data file and chat with your business data instantly. AI-driven answers. No more manual searches.
             </p>
           </div>
 
