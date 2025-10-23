@@ -34,7 +34,9 @@ Data Insight Pro is an interactive platform that lets users upload their CSV dat
 
 ### Hero Section
 ![Hero Section](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219072/Screenshot_2025-10-23_165844_lpsaww.png)
+### File Upload 
 ![Upload Interface](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219135/Screenshot_2025-10-23_170204_fnvy8y.png)
+### Chat Interface
 ![Chat Interface](https://res.cloudinary.com/dzbbxzmsk/image/upload/v1761219253/Screenshot_2025-10-23_170405_afrhqi.png)
 
 ### 1. Clone the Repository
