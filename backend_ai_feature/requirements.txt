@@ -12,6 +12,7 @@ langchain-community==0.3.5
 langchain-chroma==0.1.4
 chromadb==0.5.18
 langchain-google-genai==2.0.4
+posthog>=2.4.0,<6.0.0
 
 # Document Loaders & Processing
 unstructured
